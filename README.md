@@ -1,13 +1,13 @@
 # SPPL2a Dynamics Analysis
 
-This repository contains the analysis and plotting pipeline for the molecular dynamics study of **SPPL2a** in three states: 
+This repository contains the full analysis and plotting pipeline for the molecular dynamics study of **SPPL2a** in three states: 
 1. **Apo** (PDB: 9K92)
 2. **Inhibitor-bound** (PDB: 9K93)
 3. **Substrate-bound** (PDB: 9K95 - $\gamma$-secretase complex)
 
 ## Repository Structure
 
-The scripts are organized according to the analysis workflow:
+The scripts are organized into a logical workflow:
 
 ### `01_trajectory_prep/`
 Scripts to clean and prepare raw simulation data (removing PBC, centering, and fitting).
@@ -32,10 +32,22 @@ Detailed protein dynamics and interactions.
 * **Contacts:** `tm2_contact_occupancy.py` and `plot_tm_contacts.py` (Residue contact analysis).
 * **H-bonds:** `hbond_occupancy_analysis.py` and `plot_hbond_final.py` (Hydrogen bond networks).
 
+### `05_structural_selection/`
+Methods for identifying representative states and extracting key frames.
+* `robust_cluster.sh`: RMSD-based clustering to find the dominant structural centroid.
+* `perform_snapshot_extraction.sh`: Automated extraction of time-point snapshots (e.g., every 200ns).
+
+### `06_mmpbsa/`
+Binding energetics and energy decomposition.
+* `run_mmpbsa.sh`: Template script for `gmx_MMPBSA` calculations and input generation.
+* `plot_mmpbsa_publication.py`: Main binding energy comparison plots.
+* `plot_mmpbsa_decomposition.R`: Residue-wise energy decomposition (vdW vs. Electrostatic).
+
 ## Data Availability
 The reduced trajectories and structure files required to run these scripts are available on Zenodo: `[Insert Zenodo DOI here]`
 
 ## Requirements
 - **GROMACS** (Tested on 2023+)
+- **gmx_MMPBSA** (For folder 06)
 - **Python 3.x** (Required libraries: `MDAnalysis`, `NumPy`, `Pandas`, `Matplotlib`, `Seaborn`)
 - **R** (Required libraries: `ggplot2`, `dplyr`, `bio3d`)
